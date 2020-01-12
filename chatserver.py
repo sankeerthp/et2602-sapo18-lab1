@@ -84,7 +84,7 @@ def clientthreading(conn,addr):
                         if count != 0:
                             conn.sendall('ERROR , dont use control characters'.encode('utf-8'))
                         else:
-                            message_to_send = 'MSG '+nick1
+                            message_to_send = 'MSG '+nick1+' ' + another_message[:-1]
                 
                             broadcasting(message_to_send,conn,nick1)
                     elif len(another_message) > 255 :
