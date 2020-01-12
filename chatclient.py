@@ -1,0 +1,69 @@
+#!/usr/bin/python3
+
+import socket
+import sys
+from _thread import *
+import select 
+import re 
+
+if len(sys.argv)!=3:
+    print("Correct input format./chatclient ip:port nickname")
+    sys.exit()
+
+my_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+my_server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+
+my_info = (sys.argv[1])
+a=my_info.split(':')
+my_ip_addr=str(a[0])
+my_port=int(a[1])
+nick=str(sys.argv[2])
+
+
+my_server.connect((my_ip_addr, my_port))
+
+initial_msg=my_server.recv(2048).decode('utf-8')
+
+print(initial_msg)
+
+nick = 'NICK ' + nick
+
+
+my_server.sendall(nick.encode('utf-8'))
+
+my_response=my_server.recv(2048).decode('utf-8')
+print(my_response)
+if my_response == "OK":
+    pass
+elif my_response == "ERR malformed nick name":
+    print('do not enter nickname conatining special characters, limited only to 12 chars')
+    print('disconnecting,please try again with valid nickname')
+    sys.exit()
+    
+    
+
+
+
+while True:
+    socket_list=[sys.stdin, my_server]  #list of input streams
+    
+
+    read_sockets,write_sockets,error_sockets=select.select(socket_list,[],[])
+    
+    for sockets in read_sockets:
+        if sockets == my_server:
+            message = sockets.recv(2048).decode('utf-8')
+            print(message)
+        else:
+            message=sys.stdin.readline()
+            message = 'MSG '+ message
+            if message == '\n':
+                continue
+            else:
+                my_server.sendall(message.encode('utf-8'))
+                
+my_server.close()
+
+
+
