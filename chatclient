@@ -37,8 +37,8 @@ print(my_response)
 if my_response == "OK":
     pass
 elif my_response == "ERR malformed nick name":
-    print('do not enter nickname conatining special characters, limited only to 12 chars')
-    print('disconnecting,please try again with valid nickname')
+    print('Do not enter nickname conatining special characters, limited only to 12 chars')
+    print('Disconnecting, please try again with valid nickname')
     sys.exit()
     
     
