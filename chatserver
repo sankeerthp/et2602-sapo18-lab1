@@ -40,10 +40,10 @@ def clientthreading(conn,addr):
                 conn.sendall('OK'.encode('utf-8'))
                 break
             elif len(nick1) or regex.search(nick1) != None:
-                conn.sendall('ERR message not valid'.encode('utf-8'))
+                conn.sendall('ERROR message not valid'.encode('utf-8'))
             else:
                 conn.close()
-                print(addr[0]+" disconnected")
+                print(addr[0]+" is disconnected")
                 clients.remove(conn)
                 del clients[conn]
                 break
@@ -111,7 +111,7 @@ while True:
     conn,addr=my_server.accept()
     conn.sendall('Hello 1'.encode('utf-8'))
     clients.append(conn)
-    print(addr[0]+ " connected")
+    print(addr[0]+ "is connected")
     
     start_new_thread(clientthreading,(conn,addr))
 

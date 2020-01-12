@@ -36,7 +36,7 @@ my_response=my_server.recv(2048).decode('utf-8')
 print(my_response)
 if my_response == "OK":
     pass
-elif my_response == "ERR malformed nick name":
+elif my_response == "ERROR: Malformed nickname":
     print('Do not enter nickname conatining special characters, limited only to 12 chars')
     print('Disconnecting, please try again with valid nickname')
     sys.exit()
